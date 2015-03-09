@@ -1,0 +1,77 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize" />
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="50dp"
+        android:paddingLeft="25dp"
+        android:paddingRight="45dp"
+        >
+
+        <TextView
+            android:layout_width="80sp"
+            android:layout_height="40dp"
+            android:text="@string/str_login_name"
+            android:id="@+id/tv_login_name"
+            android:textSize="20sp"
+            android:textColor="#8e8e8e"
+            android:gravity="center_vertical|end"/>
+
+        <AutoCompleteTextView
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:id="@+id/etv_login_name"
+            android:layout_toRightOf="@id/tv_login_name"
+            android:layout_toEndOf="@id/tv_login_name"
+            android:imeOptions="actionNext"
+            android:inputType="textEmailAddress"
+            android:nextFocusDown="@+id/etv_login_password"
+            android:textColor="@color/text"/>
+
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="40dp"
+            android:text="@string/str_login_password"
+            android:id="@+id/tv_login_password"
+            android:layout_below="@id/tv_login_name"
+            android:textSize="20sp"
+            android:textColor="#8e8e8e"
+            android:gravity="center_vertical|end"
+            android:layout_marginTop="6dp"/>
+
+        <AutoCompleteTextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginStart="25dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="6dp"
+            android:imeOptions="actionDone"
+            android:id="@+id/etv_login_password"
+            android:inputType="textEmailAddress"
+            android:layout_toRightOf="@id/tv_login_password"
+            android:layout_toEndOf="@id/tv_login_password"
+            android:layout_below="@id/etv_login_name"
+            android:textColor="@color/text"/>
+    </RelativeLayout>
+
+
+</LinearLayout>
+
+
+

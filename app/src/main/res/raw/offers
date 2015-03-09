@@ -1,0 +1,105 @@
+[
+  			{
+  				img: "http://i03.c.aliimg.com/img/ibank/2013/605/616/1133616506_1498501148.75x75.jpg",
+  				subject: "陶瓷工艺 高档摆设 扭腰 陶瓷花瓶 白色 地中海 淘宝热卖",
+  				offerId: "36803108203",
+  				spuId: "36803108203",
+  				props: [
+  					{
+  						key: "品牌",
+  						value: "王老吉"
+  					},
+  					{
+  						key: "特点",
+  						value: "清凉解渴保健饮品"
+  					},
+  					{
+  						key: "型号",
+  						value: "CH502-22"
+  					}
+  				],
+  				price: "24.00",
+  				discountPrice: "26.32",
+  				isBook: "false"
+  			},
+  			{
+  				img: "http://i05.c.aliimg.com/img/ibank/2014/282/974/1288479282_810503559.75x75.jpg",
+  				subject: "宾卡达机械表全自动防水商务休闲男士手表高档手表商务钢带",
+  				offerId: "38721437230",
+  				spuId: "38721437230",
+  				props: [
+  					{
+  						key: "品牌",
+  						value: "王老吉"
+  					},
+  					{
+  						key: "特点",
+  						value: "清凉解渴保健饮品"
+  					}
+  				],
+  				price: "37800.00",
+  				discountPrice: "39800.00",
+  				isBook: "true"
+  			},
+  			{
+  				img: "http://i02.c.aliimg.com/img/ibank/2014/699/679/1434976996_934762266.75x75.jpg",
+  				subject: "创意假花塑料花 家居装饰摆件 家居创意花艺摆件 微景观 仿真花",
+  				offerId: "39026115158",
+  				spuId: "39026115158",
+  				props: [
+  					{
+  						key: "品牌",
+  						value: "王老吉"
+  					}
+  				],
+  				price: "13.05",
+  				discountPrice: "13.49",
+  				isBook: "false"
+  			},
+  			{
+  				img: "http://i00.c.aliimg.com/img/ibank/2014/036/469/1448964630_1562053212.75x75.jpg",
+  				subject: "韩版hello kitty猫儿童柠檬杯 KT猫榨汁杯凯蒂猫带吸管现货批发",
+  				offerId: "39164089849",
+  				spuId: "39164089849",
+  				props: [
+  					{
+  						key: "品牌",
+  						value: "王老吉"
+  					},
+  					{
+  						key: "特点",
+  						value: "清凉解渴保健饮品"
+  					},
+  					{
+  						key: "型号",
+  						value: "CH502-22"
+  					}
+  				],
+  				price: "23.00",
+  				discountPrice: "28.00",
+  				isBook: "false"
+  			},
+  			{
+  				img: "http://i00.c.aliimg.com/img/ibank/2014/266/574/1482475662_2098093438.75x75.jpg",
+  				subject: "批发esprit小五折扁柄彩胶超强防晒伞太阳伞防紫外线 超轻口袋伞",
+  				offerId: "39424323052",
+  				spuId: "39424323052",
+  				props: [
+  					{
+  						key: "品牌",
+  						value: "王老吉"
+  					},
+  					{
+  						key: "特点",
+  						value: "清凉解渴保健饮品"
+  					},
+  					{
+  						key: "型号",
+  						value: "CH502-22"
+  					}
+  				],
+  				price: "44.00",
+  				discountPrice: "46.00",
+  				isBook: "false"
+  			}
+  		]
