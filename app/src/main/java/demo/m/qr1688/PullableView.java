@@ -22,7 +22,7 @@ public class PullableView extends ViewGroup {
     private View mContentView;
     private float touch_y;//当前touch的y
     private int touch_y_0;//第一次touch的y
-    private int y_0;
+    private int y_0;//header view 初始y
     private int headHeight;
     private Scroller mScroller;
     private int refreshStatus;
