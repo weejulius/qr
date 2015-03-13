@@ -26,6 +26,7 @@ public class PullableView extends ViewGroup {
     private int headHeight;
     private Scroller mScroller;
     private int refreshStatus;
+    private boolean headMoved = true;
 
     public PullableView(Context context) {
         super(context);
@@ -67,7 +68,8 @@ public class PullableView extends ViewGroup {
                 mScroller.forceFinished(true);
 
                 touch_y_0 = (int) touch_y;
-                refreshStatus = 0;
+                if (refreshStatus == 2)
+                    refreshStatus = 0;
 
 
                 return true;
@@ -81,13 +83,14 @@ public class PullableView extends ViewGroup {
                 Log.d("saa", "uping ..." + mHeaderView.getY() + ":" + y_0);
 
 
-                if (distance > headHeight && refreshStatus < 1) {
+                if (distance > headHeight && refreshStatus < 2) {
                     // keepHeader();
                     d = d - headHeight;
 
                     Log.d("saa", "start scroll with header..." + d);
                     mScroller.startScroll(0, 0, 0, d, 1000);
 
+                    headMoved = false;
 
                 } else {
 
@@ -108,7 +111,7 @@ public class PullableView extends ViewGroup {
 
                 invalidate();
                 // Log.d("saa", "views." + mHeaderView.getY() + ":" + mContentView.getY());
-                if (touch_y - touch_y_0 > headHeight) {
+                if (touch_y - touch_y_0 > headHeight && refreshStatus == 0) {
                     refresh();
                 }
 
@@ -141,6 +144,8 @@ public class PullableView extends ViewGroup {
 
                         postInvalidate();
                     }
+
+
                     post(this);
 
                 }
@@ -152,8 +157,10 @@ public class PullableView extends ViewGroup {
     private void refresh() {
 
 
-        if (refreshStatus < 1) {
+        if (refreshStatus == 0) {
 
+
+            refreshStatus = 1;//刷新中
 
             new AsyncTask<Void, Void, Void>() {
 
@@ -167,8 +174,29 @@ public class PullableView extends ViewGroup {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    refreshStatus = 1;
+                    refreshStatus = 2;
+
+                    if (!headMoved) {
+
+                        while (true) {
+
+                            if (!headMoved && !mScroller.computeScrollOffset() && mScroller.isFinished()) {
+                                Log.d("saa", "move heading......");
+                                mScroller.startScroll(0, 0, 0, headHeight, 1000);
+                                headMoved = true;
+                                break;
+                            }
+                        }
+
+                    }
                     return null;
+                }
+
+                @Override
+                protected void onPostExecute(Void aVoid) {
+                    super.onPostExecute(aVoid);
+
+
                 }
             }.execute();
 
