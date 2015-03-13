@@ -1,0 +1,22 @@
+<demo.m.qr1688.PullableView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_margin="5dp"
+        android:text="Header..............."
+        android:textColor="#444"
+        android:background="#defcab"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="5dp"
+        android:text="Content================"
+        android:textColor="#444"
+        android:background="#aaa"/>
+
+
+</demo.m.qr1688.PullableView>

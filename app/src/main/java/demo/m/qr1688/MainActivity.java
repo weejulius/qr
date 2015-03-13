@@ -1,26 +1,19 @@
 package demo.m.qr1688;
 
-import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.ListView;
-import android.widget.Toolbar;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import demo.m.qr1688.model.Spu;
 import demo.m.qr1688.sliding.SlidingTabLayout;
 
 
@@ -49,9 +42,11 @@ public class MainActivity extends ActionBarActivity {
 
         setSupportActionBar(toolbar);
 
+
+
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         viewPager.setAdapter(new SpuFragmentPagerAdapter(getSupportFragmentManager(),
-                MainActivity.this));
+                this));
 
         // Give the SlidingTabLayout the ViewPager
         SlidingTabLayout slidingTabLayout = (SlidingTabLayout) findViewById(R.id.sliding_tabs);
@@ -69,6 +64,19 @@ public class MainActivity extends ActionBarActivity {
 
         slidingTabLayout.setDistributeEvenly(true);
         slidingTabLayout.setViewPager(viewPager);
+
+        slidingTabLayout.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                //findViewById(R.id.pull_text).setVisibility(View.VISIBLE);
+
+                Log.d("saa", "pulling is trigger");
+
+                return true;
+            }
+        });
 
 
 //
