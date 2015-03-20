@@ -1,5 +1,6 @@
 package demo.m.qr1688;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.AttributeSet;
@@ -17,7 +18,7 @@ import java.util.Random;
 public class PullableView extends ViewGroup {
 
     final Random r = new Random();
-    int last_scroll_y;
+    float last_scroll_y;
     private View mHeaderView;
     private View mContentView;
     private float touch_y;//当前touch的y
@@ -25,6 +26,37 @@ public class PullableView extends ViewGroup {
     private int y_0;//header view 初始y
     private int headHeight;
     private Scroller mScroller;
+    private int cur_y;
+    Runnable runnable = new Runnable() {
+
+
+        @Override
+        public void run() {
+            if (mScroller.computeScrollOffset() && !mScroller.isFinished()) {
+
+                float d = mScroller.getCurrY() - last_scroll_y;
+                cur_y += d;
+                last_scroll_y = mScroller.getCurrY();
+
+                if (d != 0) {
+                    scrollBy(0, (int) -d);
+                    //mHeaderView.offsetTopAndBottom((int)d);
+                    //mContentView.offsetTopAndBottom((int)d);
+                    // y_0 += d;
+                    //cy = mScroller.getCurrY();
+
+                    postInvalidate();
+                    //   Log.d("saa", "... " + mHeaderView.getY() + ":" + getY());
+
+                }
+
+
+                post(this);
+
+            }
+        }
+    };
+    private ValueAnimator animator;
     private int refreshStatus;
     private boolean headMoved = true;
 
@@ -77,10 +109,11 @@ public class PullableView extends ViewGroup {
                 final int ty = (int) event.getY();
 
                 float distance = ty - touch_y_0;
+                // cur_y+=distance;
+                //  touch_y_0 = ty;
 
-                int moved = (int) (mHeaderView.getY() - y_0);
-                int d = moved;
-                Log.d("saa", "uping ..." + mHeaderView.getY() + ":" + y_0);
+                int d = cur_y;
+                Log.d("saa", "uping ..." + d);
 
 
                 if (distance > headHeight && refreshStatus < 2) {
@@ -88,15 +121,16 @@ public class PullableView extends ViewGroup {
                     d = d - headHeight;
 
                     Log.d("saa", "start scroll with header..." + d);
-                    mScroller.startScroll(0, 0, 0, d, 1000);
+                    startScroll(d);
+
 
                     headMoved = false;
 
                 } else {
+                    startScroll(d);
 
                     Log.d("saa", "start scroll ..." + d);
 
-                    mScroller.startScroll(0, 0, 0, d, 1000);
                 }
                 invalidate();
                 return true;
@@ -105,12 +139,16 @@ public class PullableView extends ViewGroup {
             case MotionEvent.ACTION_MOVE:
 
                 int m = (int) (event.getY() - touch_y);
+
+                cur_y += m;
+
                 mHeaderView.offsetTopAndBottom(m);
                 mContentView.offsetTopAndBottom(m);
                 touch_y = event.getY();
 
+
                 invalidate();
-                // Log.d("saa", "views." + mHeaderView.getY() + ":" + mContentView.getY());
+                Log.d("saa", "cur y..." + cur_y);
                 if (touch_y - touch_y_0 > headHeight && refreshStatus == 0) {
                     refresh();
                 }
@@ -124,34 +162,44 @@ public class PullableView extends ViewGroup {
     }
 
     public void computeScroll() {
-        post(new Runnable() {
 
 
-            @Override
-            public void run() {
-                if (mScroller.computeScrollOffset() && !mScroller.isFinished()) {
+    }
 
-                    int d = mScroller.getCurrY() - last_scroll_y;
-
-                    last_scroll_y = mScroller.getCurrY();
-
-                    if (d > 0) {
-                        scrollBy(0, d);
-                        y_0 += d;
-                        //cy = mScroller.getCurrY();
-
-                        // Log.d("saa", "scrolling... " + mScroller.getCurrY() + ":" + d);
-
-                        postInvalidate();
-                    }
+    private void startScroll(int d) {
 
 
-                    post(this);
+        removeCallbacks(runnable);
 
-                }
-            }
-        });
+//        if (animator != null) animator.cancel();
+//        animator = ValueAnimator.ofFloat(0f, -d);
+//        animator.setDuration(1000);
+//        animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+//            float last_y;
+//
+//            @Override
+//            public void onAnimationUpdate(ValueAnimator animation) {
+//
+//                Float y = (Float) animation.getAnimatedValue();
+//                float d = y - last_y;
+//                cur_y -= d;
+//                last_y = y;
+//
+//                if (d != 0) {
+//                    scrollBy(0, (int) -d);
+//                    //cy = mScroller.getCurrY();
+//
+//                    Log.d("saa", "ann... " + cur_y + ":" + d);
+//
+//                    postInvalidate();
+//                }
+//            }
+//        });
+//        animator.start();
 
+        mScroller.startScroll(0, 0, 0, -d, 1000);
+
+        //   post(runnable);
     }
 
     private void refresh() {
@@ -163,6 +211,7 @@ public class PullableView extends ViewGroup {
             refreshStatus = 1;//刷新中
 
             new AsyncTask<Void, Void, Void>() {
+                boolean move;
 
                 @Override
                 protected Void doInBackground(Void[] params) {
@@ -178,12 +227,12 @@ public class PullableView extends ViewGroup {
 
                     if (!headMoved) {
 
-                        while (true) {
+                        while (!move) {
 
                             if (!headMoved && !mScroller.computeScrollOffset() && mScroller.isFinished()) {
                                 Log.d("saa", "move heading......");
-                                mScroller.startScroll(0, 0, 0, headHeight, 1000);
                                 headMoved = true;
+                                move = true;
                                 break;
                             }
                         }
@@ -195,6 +244,12 @@ public class PullableView extends ViewGroup {
                 @Override
                 protected void onPostExecute(Void aVoid) {
                     super.onPostExecute(aVoid);
+                    if (move) {
+                        last_scroll_y = 0;
+                        startScroll(headHeight);
+
+                        invalidate();
+                    }
 
 
                 }
