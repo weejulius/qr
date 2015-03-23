@@ -1,9 +1,9 @@
 package demo.m.qr1688;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.ImageFormat;
 import android.hardware.Camera;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -29,11 +29,14 @@ public class PhotoActivity extends Activity implements SurfaceHolder.Callback {
     private SurfaceView mSurfaceView;
     private SurfaceHolder mSurfaceHolder;
     private ImageView imgPre;
+    private String userId = "00000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photo_activity);
+
+        userId = getIntent().getStringExtra("USER_ID_INPUT");
 
         Log.d("saa", "num:" + Camera.getNumberOfCameras());
 
@@ -41,14 +44,14 @@ public class PhotoActivity extends Activity implements SurfaceHolder.Callback {
 
         Camera.Parameters p = mCamera.getParameters();
         p.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-        Log.d("saa", mCamera.getParameters().getSupportedColorEffects().toString()) ;
-        Log.d("saa", mCamera.getParameters().getSupportedSceneModes().toString()) ;
-        Log.d("saa", mCamera.getParameters().getSupportedAntibanding().toString()) ;
+        Log.d("saa", mCamera.getParameters().getSupportedColorEffects().toString());
+        Log.d("saa", mCamera.getParameters().getSupportedSceneModes().toString());
+        Log.d("saa", mCamera.getParameters().getSupportedAntibanding().toString());
 
         p.setSceneMode(Camera.Parameters.SCENE_MODE_SUNSET);
         p.setColorEffect(Camera.Parameters.EFFECT_AQUA);
         mCamera.setParameters(p);
-        Log.d("saa", mCamera.getParameters().flatten()) ;
+        Log.d("saa", mCamera.getParameters().flatten());
 
 
         mSurfaceView = (SurfaceView) findViewById(R.id.surfaceView);
@@ -60,12 +63,25 @@ public class PhotoActivity extends Activity implements SurfaceHolder.Callback {
         mSurfaceHolder.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS);
 
 
-
-
     }
 
 
-    public void doTake(final View view) {
+    public void doTakeIDPic(final View view) {
+        doTake(userId, userId + "_id", 1);
+
+    }
+
+    public void doTakeStorePic(final View view) {
+
+        doTake(userId, userId + "_store", 2);
+    }
+
+    public void doTakeBizPic(final View view) {
+
+        doTake(userId, userId + "_biz", 3);
+    }
+
+    public void doTake(final String userId, final String picName, final int type) {
 
         mCamera.takePicture(null, null, new Camera.PictureCallback() {
             @Override
@@ -85,7 +101,7 @@ public class PhotoActivity extends Activity implements SurfaceHolder.Callback {
 
                         try {
                             File image = File.createTempFile(
-                                    "test",  /* prefix */
+                                    picName,  /* prefix */
                                     ".jpg",         /* suffix */
                                     storageDir      /* directory */
                             );
@@ -93,6 +109,9 @@ public class PhotoActivity extends Activity implements SurfaceHolder.Callback {
                             compressImage(data, image);
 
                             Log.d("saa", "img:" + image.getAbsolutePath());
+
+                            updateUser(userId, image.getAbsolutePath(), type);
+
                             return image;
 
                         } catch (Exception e) {
@@ -108,7 +127,7 @@ public class PhotoActivity extends Activity implements SurfaceHolder.Callback {
                         super.onPostExecute(image);
 
                         Log.d("saa", "rending img");
-                        imgPre.setPadding(1,1,1,1);
+                        imgPre.setPadding(1, 1, 1, 1);
                         imgPre.setBackgroundResource(R.color.background_material_light);
                         imgPre.setImageURI(Uri.fromFile(image));
                     }
@@ -118,6 +137,26 @@ public class PhotoActivity extends Activity implements SurfaceHolder.Callback {
 
         });
 
+
+    }
+
+
+    private void updateUser(String userId, String picName, int type) {
+        UserListActivity.User user = UserListActivity.users.get(userId);
+
+        if (user == null) {
+            user = new UserListActivity.User();
+            user.loginId = userId;
+            UserListActivity.users.put(userId, user);
+        }
+
+        if (type == 1) {
+            user.idImg = picName;
+        } else if (type == 2) {
+            user.storeImg = picName;
+        } else if (type == 3) {
+            user.bizImg = picName;
+        }
 
     }
 
@@ -200,7 +239,14 @@ public class PhotoActivity extends Activity implements SurfaceHolder.Callback {
     public void surfaceDestroyed(SurfaceHolder holder) {
 
         mCamera.release();
+        Log.d("saa", "des...");
+
     }
 
 
+    public void doGoToList(View view) {
+
+        Intent intent = new Intent(this,UserListActivity.class);
+        startActivity(intent);
+    }
 }

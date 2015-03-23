@@ -13,10 +13,40 @@
         android:layout_width="80dp"
         android:layout_height="40dp"
         android:layout_alignBottom="@id/surfaceView"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="20dp"
         android:background="#eee"
-        android:onClick="doTake"
-        android:text="拍照"
+        android:onClick="doTakeIDPic"
+        android:text="拍身份证"
+        android:textColor="#444" />
+
+    <Button
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@id/surfaceView"
+        android:layout_marginBottom="70dp"
+        android:background="#eee"
+        android:onClick="doTakeBizPic"
+        android:text="拍营业证"
+        android:textColor="#444" />
+
+    <Button
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@id/surfaceView"
+        android:layout_marginBottom="120dp"
+        android:background="#eee"
+        android:onClick="doTakeStorePic"
+        android:text="拍店铺"
+        android:textColor="#444" />
+
+    <Button
+        android:layout_width="80dp"
+        android:layout_height="40dp"
+        android:layout_alignBottom="@id/surfaceView"
+        android:layout_marginBottom="170dp"
+        android:background="#eee"
+        android:onClick="doGoToList"
+        android:text="返回列表"
         android:textColor="#444" />
 
     <ImageView
